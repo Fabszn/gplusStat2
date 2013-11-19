@@ -6,7 +6,7 @@ import play.api.mvc._
 object Application extends Controller {
 
   def index = Action {
-    Ok(views.html.index("" + GooglePlusApiHelper.getArticles().size))
+    Ok(views.html.index("" + GooglePlusAPIHelper.getArticles().size))
   }
 
 }

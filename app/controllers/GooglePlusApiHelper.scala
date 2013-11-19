@@ -15,7 +15,7 @@ import scala.collection.{mutable, JavaConversions}
  * Time: 23:53
  */
 
-object GooglePlusApiHelper {
+object GooglePlusAPIHelper {
 
   def getArticles(): mutable.Buffer[Activity] = {
 

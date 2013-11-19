@@ -1,7 +1,198 @@
 @(message: String)
 
-@main("Welcome to Play") {
 
-    @play20.welcome(message)
 
-}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
+        <title>Starter Template for Bootstrap</title>
+
+            <!-- Bootstrap core CSS -->
+        <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie' rel='stylesheet' type='text/css'>
+
+            <!-- Custom styles for this template -->
+
+
+        <style>
+        {
+
+        }
+        .box{
+        border :1px solid gray;
+
+        }
+
+        .cont {
+        padding : 4px;
+
+        }
+
+        .cont#refDiv {
+
+        padding-top : 4px;
+        }
+
+        body {
+        font-family: 'Reenie Beanie', cursive;
+            font-size: 3em;
+        overflow-y :hidden;
+        }
+
+        body {
+        padding-top: 50px;
+        }
+        .starter-template {
+        padding-top: 40px;
+        text-align: center;
+        height:980px;
+
+
+        }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="">Project name</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+
+                        <li><a href="#about" id="div1">div1</a></li>
+                        <li><a href="#contact" id="div2" >div2</a></li>
+                        <li><a href="#d" id="div3" >div3</a></li>
+                        <li><a href="#d" id="div4" >div4</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="starter-template">
+                <div id="refDiv" class="cont" name='id1'>
+
+                    <div class="col-xs-12 ">
+                        <table id="articles" class="table table-striped">
+                            <thead>
+                                <th>@(message)</th>
+                                <th> Col2</th>
+                                <th>Col3</th>
+                                <th>Col4</th>
+                                <th>Col5</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>val1</td>
+                                    <td>val2</td>
+                                    <td>val3</td>
+                                    <td>val4</td>
+                                    <td>val5</td>
+                                </tr>
+                                <tr>
+                                    <td>val1</td>
+                                    <td>val2</td>
+                                    <td>val3</td>
+                                    <td>val4</td>
+                                    <td>val5</td>
+                                </tr>
+                                <tr>
+                                    <td>val1</td>
+                                    <td>val2</td>
+                                    <td>val3</td>
+                                    <td>val4</td>
+                                    <td>val5</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="receiver"class="cont" name='id2'>
+                <div class="col-xs-4  h4">
+                    time
+                </div>
+                <div class="col-xs-4  h4">
+                    Title
+                </div>
+                <div class="col-xs-4  h4">
+                    Description
+                </div>
+            </div>
+
+            <div id="receiver" class="cont" name='id3'>
+                Div3
+            </div>
+            <div id="receiver" class="cont" name='id4'>
+                <div class="col-xs-4  h4">
+                    time
+                </div>
+                <div class="col-xs-4  h4">
+                    Title
+                </div>
+                <div class="col-xs-4  h4">
+                    Description
+                </div>
+            </div>
+        </div>
+
+
+
+            <!-- Bootstrap core JavaScript
+================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+        <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+
+
+        <script src="http://codeorigin.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.0.2/bootstrap.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
+        <script>
+        $(function() {
+          $("#articles").dataTable();
+
+        $('.cont').each(function(){
+        $(this).height($(window).height()-11)
+        $(this).width($(".starter-template").width())
+        scrollToAnchor('id1');
+        })
+
+        $('#div1').click(function(){scrollToAnchor('id1')})
+        $('#div2').click(function(){scrollToAnchor('id2')})
+        $('#div3').click(function(){scrollToAnchor('id3')})
+        $('#div4').click(function(){scrollToAnchor('id4')})
+
+        });
+
+        function scrollToAnchor(aid){
+        var aTag = $("div[name='"+ aid +"']");
+        $('html,body').animate({scrollTop: (aTag.offset().top-50)},'slow');
+        }
+
+
+        </script>
+
+
+    </body>
+</html>
