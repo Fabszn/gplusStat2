@@ -1,4 +1,4 @@
-package controllers
+package utils
 
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.services.plus.Plus
