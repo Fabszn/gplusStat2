@@ -43,7 +43,7 @@
 
         body {
         font-family: 'Reenie Beanie', cursive;
-            font-size: 3em;
+            font-size: 2em;
         overflow-y :hidden;
         }
 
@@ -72,12 +72,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="">Project name</a>
+                    <a class="navbar-brand" href="">Gplus Statistique</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
 
-                        <li><a href="#about" id="div1">div1</a></li>
+                        <li><a href="#about" id="div1">Articles</a></li>
                         <li><a href="#contact" id="div2" >div2</a></li>
                         <li><a href="#d" id="div3" >div3</a></li>
                         <li><a href="#d" id="div4" >div4</a></li>
@@ -94,34 +94,14 @@
                     <div class="col-xs-12 ">
                         <table id="articles" class="table table-striped">
                             <thead>
-                                <th>@(message)</th>
-                                <th> Col2</th>
-                                <th>Col3</th>
-                                <th>Col4</th>
-                                <th>Col5</th>
+                                <th>Title</th>
+                                <th>Auteur</th>
+                                <th>+1</th>
+                                <th>Shared</th>
+
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>val1</td>
-                                    <td>val2</td>
-                                    <td>val3</td>
-                                    <td>val4</td>
-                                    <td>val5</td>
-                                </tr>
-                                <tr>
-                                    <td>val1</td>
-                                    <td>val2</td>
-                                    <td>val3</td>
-                                    <td>val4</td>
-                                    <td>val5</td>
-                                </tr>
-                                <tr>
-                                    <td>val1</td>
-                                    <td>val2</td>
-                                    <td>val3</td>
-                                    <td>val4</td>
-                                    <td>val5</td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -169,8 +149,19 @@
         <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.0.2/bootstrap.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
         <script>
-        $(function() {
-          $("#articles").dataTable();
+        $ ( function ( ) {
+        $ ( "#articles" ).dataTable ( {
+        "aoColumnDefs":
+        [{ "sWidth": "60%", "aTargets": [0] },
+        { "sWidth": "30%", "bSearchable": false, "aTargets": [1] },
+        { "sWidth": "5%", "aTargets": [2] },
+        { "sWidth": "5%", "aTargets": [3] }],
+        "bProcessing" : true,
+        "sAjaxSource" : 'articles'
+        },
+        {
+        "iDisplayLength": 5
+        }) ;
 
         $('.cont').each(function(){
         $(this).height($(window).height()-11)
