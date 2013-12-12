@@ -98,6 +98,7 @@
                                 <th>Auteur</th>
                                 <th>+1</th>
                                 <th>Shared</th>
+                                <th>Publication Date</th>
 
                             </thead>
                             <tbody>
@@ -150,14 +151,17 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
         <script>
         $ ( function ( ) {
-        $ ( "#articles" ).dataTable ( {
-        "aoColumnDefs":
+        $ ( "#articles" ).dataTable (
+
+        {"aoColumnDefs":
         [{ "sWidth": "60%", "aTargets": [0] },
         { "sWidth": "30%", "bSearchable": false, "aTargets": [1] },
         { "sWidth": "5%", "aTargets": [2] },
-        { "sWidth": "5%", "aTargets": [3] }],
+        { "sWidth": "5%", "aTargets": [3] },
+        { "bVisible": false, "aTargets": [4] }],
         "bProcessing" : true,
-        "sAjaxSource" : 'articles'
+        "sAjaxSource" : 'articles',
+        "aaSorting": [[4,'desc']]
         },
         {
         "iDisplayLength": 5

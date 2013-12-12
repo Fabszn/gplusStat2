@@ -7,6 +7,8 @@ import com.google.api.client.json.jackson.JacksonFactory
 import com.google.api.services.plus.model.Activity
 import java.util
 import scala.collection.{mutable, JavaConversions}
+import model.Article
+import HtmlUtils._
 
 
 /**
@@ -17,7 +19,7 @@ import scala.collection.{mutable, JavaConversions}
 
 object GooglePlusAPIHelper {
 
-  def getArticles(): mutable.Buffer[Activity] = {
+  def getArticles(): List[Article] = {
 
 
     val jsonFactory = new JacksonFactory
@@ -39,13 +41,10 @@ object GooglePlusAPIHelper {
     while (activities != null) {
       //val acti = JavaConversions.asScalaBuffer(activities)
       articles.addAll(activities)
-      println(articles.size())
 
       if (feed.getNextPageToken == null) {
-          println("null")
           activities = null
       } else {
-        println("not null")
         listActivities.setPageToken(feed.getNextPageToken)
         // Execute and process the next page request
         feed = listActivities.execute()
@@ -53,7 +52,9 @@ object GooglePlusAPIHelper {
       }
     }
 
-    JavaConversions.asScalaBuffer(articles)
+    println("treat google query")
+    JavaConversions.asScalaBuffer(articles).map(ac => Article(extractHtmlContent(ac.getObject.getContent,"b")
+      ,ac.getId,ac.getObject.getContent,extractHtmlContent(ac.getObject.getContent,"a"),ac.getObject.getPlusoners.getTotalItems,ac.getObject.getResharers.getTotalItems,true,ac.getPublished().getValue)).toList
   }
 }
 
