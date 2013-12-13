@@ -1,28 +1,16 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
-import _root_.utils.{HtmlUtils, GooglePlusAPIHelper}
-import reactivemongo.bson._
+import _root_.utils.{ GooglePlusAPIHelper}
 import model.Article
 import play.modules.reactivemongo.ReactiveMongoPlugin
-import reactivemongo.api.collections.default.BSONCollection
 import play.api.Play.current
 import scala.concurrent.{ExecutionContext}
 import ExecutionContext.Implicits.global
 import play.api.libs.json._
-import reactivemongo.bson.BSONString
-import reactivemongo.api.collections.default.BSONCollection
-import scala.util.parsing.json.JSONArray
-import reactivemongo.bson.BSONLong
 import play.api.libs.json.JsArray
-import reactivemongo.bson.BSONBoolean
-import reactivemongo.bson.BSONString
 import reactivemongo.api.collections.default.BSONCollection
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.DateTime
 import views.html.saved
-import org.jsoup.Jsoup
 import job.SynchroItem
 
 
@@ -43,8 +31,8 @@ object Application extends Controller {
 
 
 
-    //Ok(views.html.showGoogleContent(articles.map(a => (HtmlUtils.extractTags(a.getObject.getContent)).mkString(","))))
-    Ok(views.html.showGoogleContent(ArticlesFromGoogle.map(a => (a.googleId + " " + a.title + " "+a.plusone + " " + a.shared))))
+    //Ok(views.html.showGoogleContent(ArticlesFromGoogle.map(a => (a.googleId + " " + a.title + " "+a.plusone + " " + a.shared))))
+    Ok(views.html.index())
   }
 
   def index2 = Action {
