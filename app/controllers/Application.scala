@@ -28,6 +28,15 @@ import job.SynchroItem
 
 object Application extends Controller {
 
+  def articleFromDB = Action.async {
+
+    val farticles = Article.loadArticles()
+
+    farticles.map(art => Ok(views.html.allArticles(art.map(a => a.googleId + " " + a.title + " "+a.plusone + " " + a.shared ))))
+
+
+  }
+
   def index = Action {
     val ArticlesFromGoogle = GooglePlusAPIHelper.getArticles()
 
@@ -35,7 +44,7 @@ object Application extends Controller {
 
 
     //Ok(views.html.showGoogleContent(articles.map(a => (HtmlUtils.extractTags(a.getObject.getContent)).mkString(","))))
-    Ok(views.html.showGoogleContent(ArticlesFromGoogle.map(a => (a.googleId + " " + a.title))))
+    Ok(views.html.showGoogleContent(ArticlesFromGoogle.map(a => (a.googleId + " " + a.title + " "+a.plusone + " " + a.shared))))
   }
 
   def index2 = Action {

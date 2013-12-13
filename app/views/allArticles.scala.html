@@ -1,7 +1,7 @@
-@(articles: List[model.Article])
+@(articles: List[String])
 
 
 @for(article <- articles) {
-    <li>@article.title</li>
+    <li>@article</li>
 }
 

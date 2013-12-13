@@ -5,6 +5,7 @@
 # Home page
 GET        /                controllers.Application.index
 GET        /articles        controllers.Application.displayArticles
+GET        /articlesDB        controllers.Application.articleFromDB
 GET        /save            controllers.Application.saveArticle
 GET        /index2          controllers.Application.index2
 # Map static resources from the /public folder to the /assets URL path

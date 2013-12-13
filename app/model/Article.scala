@@ -18,7 +18,7 @@ case class Article(title: String, googleId: String, content: String, author: Str
   // def formatedPublicationDate(): String = publicationDate.dayOfMonth() + "/" + publicationDate.monthOfYear() + "/" + publicationDate.year()
   override def hashCode(): Int = (googleId + plusone + shared).hashCode
 
-  override def equals(p1: scala.Any): Boolean = this.hashCode().equals(p1.hashCode())
+  override def equals(p1: scala.Any): Boolean = this.hashCode() == (p1.hashCode())
 }
 
 
@@ -42,17 +42,19 @@ object Article {
     def read(document: BSONDocument): Article = {
       //al doc = document.toTraversable
       Article(
-        document.getAs[BSONString]("title").get.value,
-        document.getAs[BSONString]("googleId").get.value,
-        document.getAs[BSONString]("content").get.value,
-        document.getAs[BSONString]("author").get.value,
-        document.getAs[BSONLong]("plusOne").get.value,
-        document.getAs[BSONLong]("shared").get.value,
-        document.getAs[BSONBoolean]("current").get.value,
-        document.getAs[BSONLong]("publicationDate").get.value
+        document.getAs[BSONString]("title").getOrElse(BSONString("NO_VALUE")).value,
+        document.getAs[BSONString]("googleId").getOrElse(BSONString("NO_VALUE")).value,
+        document.getAs[BSONString]("content").getOrElse(BSONString("NO_VALUE")).value,
+        document.getAs[BSONString]("author").getOrElse(BSONString("NO_VALUE")).value,
+        document.getAs[BSONLong]("plusOne").getOrElse(BSONLong(-1)).value,
+        document.getAs[BSONLong]("shared").getOrElse(BSONLong(-1)).value,
+        document.getAs[BSONBoolean]("current").getOrElse(BSONBoolean(false)).value,
+        document.getAs[BSONLong]("publicationDate").getOrElse(BSONLong(-1)).value
       )
     }
   }
+
+
 
   implicit object ArticleBSONWriter extends BSONDocumentWriter[Article] {
     def write(article: Article): BSONDocument =
@@ -68,11 +70,6 @@ object Article {
         "publicationDate" -> BSONLong(article.publicationDate)
       )
 
-    /*if (article.creationDate.isDefined)
-      bson += "creationDate" -> BSONDateTime(article.creationDate.get.getMillis)
-    if (article.updateDate.isDefined)
-      bson += "updateDate" -> BSONDateTime(article.updateDate.get.getMillis)*/
-
 
   }
 
@@ -80,7 +77,6 @@ object Article {
     import scala.concurrent.{ExecutionContext}
     import ExecutionContext.Implicits.global
     import play.api.Play.current
-    println("articles from DB")
 
     // Gets a reference to the collection "acoll"
     // By default, you get a BSONCollection.
@@ -88,8 +84,7 @@ object Article {
     val query = BSONDocument("current" -> true)
 
     val cursor = collection.find(query).cursor[Article]
-    println("articles from DB 2")
-    cursor.collect[List](1000)
+    cursor.collect[List]()
 
   }
 
