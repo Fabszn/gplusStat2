@@ -1,10 +1,5 @@
 package model
 
-import play.api.libs.json.{JsValue, Writes}
-import play.api.libs.json._
-import java.util.Date
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import reactivemongo.bson._
 import reactivemongo.bson.BSONBoolean
 import reactivemongo.bson.BSONLong
@@ -12,9 +7,13 @@ import reactivemongo.bson.BSONString
 import play.modules.reactivemongo.ReactiveMongoPlugin
 import reactivemongo.api.collections.default.BSONCollection
 import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext}
+import ExecutionContext.Implicits.global
+import play.api.Play.current
+import scala.util.{Failure, Success}
 
 
-case class Article(title: String, googleId: String, content: String, author: String, plusone: Long, shared: Long, current: Boolean, publicationDate: Long) {
+case class Article(_id: Option[BSONObjectID] = None, title: String, googleId: String, content: String, author: String, plusone: Long, shared: Long, current: Boolean, publicationDate: Long) {
   // def formatedPublicationDate(): String = publicationDate.dayOfMonth() + "/" + publicationDate.monthOfYear() + "/" + publicationDate.year()
   override def hashCode(): Int = (googleId + plusone + shared).hashCode
 
@@ -41,7 +40,7 @@ object Article {
   implicit object ArticleBSONReader extends BSONDocumentReader[Article] {
     def read(document: BSONDocument): Article = {
       //al doc = document.toTraversable
-      Article(
+      Article(document.getAs[BSONObjectID]("_id"),
         document.getAs[BSONString]("title").getOrElse(BSONString("NO_VALUE")).value,
         document.getAs[BSONString]("googleId").getOrElse(BSONString("NO_VALUE")).value,
         document.getAs[BSONString]("content").getOrElse(BSONString("NO_VALUE")).value,
@@ -55,11 +54,10 @@ object Article {
   }
 
 
-
   implicit object ArticleBSONWriter extends BSONDocumentWriter[Article] {
     def write(article: Article): BSONDocument =
       BSONDocument(
-        //"_id" -> article.id.getOrElse(BSONObjectID.generate),
+        "_id" -> article._id.getOrElse(BSONObjectID.generate),
         "title" -> BSONString(article.title),
         "googleId" -> BSONString(article.googleId),
         "content" -> BSONString(article.content),
@@ -74,16 +72,38 @@ object Article {
   }
 
   def loadArticles(): Future[List[Article]] = {
-    import scala.concurrent.{ExecutionContext}
-    import ExecutionContext.Implicits.global
-    import play.api.Play.current
 
-    // Gets a reference to the collection "acoll"
-    // By default, you get a BSONCollection.
-    val collection = ReactiveMongoPlugin.db.collection[BSONCollection]("Article")
     val query = BSONDocument("current" -> true)
+    queryArticles(query)
+  }
 
-    val cursor = collection.find(query).cursor[Article]
+  def loadActiveArticleByGoogleId(googleId: String): Future[List[Article]] = {
+    val query = BSONDocument("current" -> true, "googleId" -> googleId)
+    queryArticles(query)
+
+  }
+
+  def updateArticle(a: Article) = {
+    val articles = ReactiveMongoPlugin.db.collection[BSONCollection]("Article")
+
+    val modifier = BSONDocument("$set" -> BSONDocument("current" -> false))
+
+    articles.update(BSONDocument("_id" -> a._id), modifier).onComplete {
+      case Failure(e) => throw e
+      case Success(_) => println("successful!")
+    }
+
+  }
+
+  def saveArticle(article: Article) {
+    val articles = ReactiveMongoPlugin.db.collection[BSONCollection]("Article")
+    articles.save(article)
+  }
+
+  private def queryArticles(query: BSONDocument): Future[List[Article]] = {
+
+    val articles = ReactiveMongoPlugin.db.collection[BSONCollection]("Article")
+    val cursor = articles.find(query).cursor[Article]
     cursor.collect[List]()
 
   }
