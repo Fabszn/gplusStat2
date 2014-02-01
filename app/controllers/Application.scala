@@ -1,17 +1,12 @@
 package controllers
 
 import play.api.mvc._
-import _root_.utils.{GooglePlusAPIHelper}
-import model.Article
-import play.modules.reactivemongo.ReactiveMongoPlugin
+import model.{Tag, Article}
 import play.api.Play.current
 import scala.concurrent.{ExecutionContext}
 import ExecutionContext.Implicits.global
 import play.api.libs.json._
 import play.api.libs.json.JsArray
-import reactivemongo.api.collections.default.BSONCollection
-import views.html.saved
-import job.SynchroItemActor
 
 
 object Application extends Controller {
@@ -37,7 +32,21 @@ object Application extends Controller {
     }
 
 
-      Article.loadArticles().map(articles => Ok(JsObject(Seq(("aaData", Json.toJson(articles))))))
+    Article.loadArticles().map(articles => Ok(JsObject(Seq(("aaData", Json.toJson(articles))))))
+  }
+
+
+  /**
+   * Load all tags with the number of articles associated
+   * @return Json feed
+   */
+  def tagFromDB = Action.async {
+
+    implicit object tagJsonWrite extends Writes[Tag] {
+      def writes(o: Tag): JsValue = JsObject(Seq((o.lbl, JsNumber(o.articleIds.size))))
+
+    }
+    Tag.loadTags().map(tags => Ok(JsObject(tags.filter(tag => tag.articleIds.size > 1).map(t => (t.lbl, JsNumber(t.articleIds.size))).toList)))
   }
 
   /*def articleFromDB = Action.async {
@@ -72,7 +81,6 @@ object Application extends Controller {
     }
     Ok("ok")
   }*/
-
 
 
 }

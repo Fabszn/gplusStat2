@@ -23,7 +23,7 @@ object Tag {
     def read(document: BSONDocument): Tag =
       Tag(document.getAs[BSONObjectID]("_id"),
         document.getAs[BSONString]("lblTag").getOrElse(BSONString("NO_VALUE")).value,
-        document.getAs[List[String]]("articles").toList.flatten
+        document.getAs[List[String]]("articleIds").toList.flatten
       )
   }
 
@@ -37,8 +37,11 @@ object Tag {
     }
   }
 
+  def loadTags(): Future[List[Tag]] = {
+    queryTags(BSONDocument())
+  }
 
-  def addArticleToTag(tag: String, articleId: String):Future[Option[Tag]] = {
+  def addArticleToTag(tag: String, articleId: String): Future[Option[Tag]] = {
     findTagById(BSONObjectID(tag))
   }
 
