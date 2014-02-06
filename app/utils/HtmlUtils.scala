@@ -22,7 +22,7 @@ object HtmlUtils {
 
   def extractTags(content: String): Iterator[String] = {
     val regex = "#[A-Za-z]+( |)".r
-    ((regex findAllMatchIn content).map(a => a.matched.tail))
+    ((regex findAllMatchIn content).map(a => a.matched.tail.capitalize))
 
   }
 

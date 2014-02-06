@@ -29,7 +29,7 @@ object GooglePlusAPIHelper {
 
     val listActivities = plus.activities()
       .list("112440333946538821016", "public")
-      .setFields("nextPageToken,items(id,url,published,object(content,plusoners,resharers))"  )
+      .setFields("nextPageToken,items(id,url,published,object(content,plusoners,resharers))")
       .setMaxResults(100L)
       .setKey("AIzaSyALxct37VoDkvswBYOysbMiRpO5hjVFukg")
 
@@ -43,7 +43,7 @@ object GooglePlusAPIHelper {
       articles.addAll(activities)
 
       if (feed.getNextPageToken == null) {
-          activities = null
+        activities = null
       } else {
         listActivities.setPageToken(feed.getNextPageToken)
         // Execute and process the next page request
@@ -53,8 +53,8 @@ object GooglePlusAPIHelper {
     }
 
     println("treat google query")
-    JavaConversions.asScalaBuffer(articles).map(ac => Article(None,extractHtmlContent(ac.getObject.getContent,"b")
-      ,ac.getId,ac.getObject.getContent,extractHtmlContent(ac.getObject.getContent,"a"),ac.getObject.getPlusoners.getTotalItems,ac.getObject.getResharers.getTotalItems,true,ac.getPublished().getValue)).toList
+    JavaConversions.asScalaBuffer(articles).map(ac => Article(None, extractHtmlContent(ac.getObject.getContent, "b")
+      , ac.getId, ac.getObject.getContent, extractHtmlContent(ac.getObject.getContent, "a"), ac.getObject.getPlusoners.getTotalItems, ac.getObject.getResharers.getTotalItems, true, ac.getPublished().getValue)).toList
   }
 }
 

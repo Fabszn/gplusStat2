@@ -80,7 +80,7 @@ object Application extends Controller {
       case a => a.foreach(f => Article.updateArticle(f))
     }
     Ok("ok")
-  }*/
+  } */
 
 
 }

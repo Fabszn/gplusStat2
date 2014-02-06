@@ -18,6 +18,7 @@ case class Article(_id: Option[BSONObjectID] = None, title: String, googleId: St
   override def hashCode(): Int = (googleId + plusone + shared).hashCode
 
   override def equals(p1: scala.Any): Boolean = this.hashCode() == (p1.hashCode())
+
 }
 
 
@@ -83,7 +84,7 @@ object Article {
 
   }
 
-  def updateArticle(a: Article) = {
+  def unactiveArticle(a: Article) = {
     val articles = ReactiveMongoPlugin.db.collection[BSONCollection]("Article")
 
     val modifier = BSONDocument("$set" -> BSONDocument("current" -> false))

@@ -41,12 +41,28 @@ object Tag {
     queryTags(BSONDocument())
   }
 
-  def addArticleToTag(tag: String, articleId: String): Future[Option[Tag]] = {
-    findTagById(BSONObjectID(tag))
+  def updateOrCreateTag(tag: Tag) {
+
+    queryTag(BSONDocument("lbl" -> tag.lbl))
+
+    //traitement de la future, en f() du résultat de l'option :
+    //- Si tag existe mettre à jours sa liste d'article
+    //- Si le tag n'existe pas alors création du Tag
+
   }
 
   def findTagById(_id: BSONObjectID): Future[Option[Tag]] = {
     queryTag(BSONDocument("_id" -> _id))
+  }
+
+  def cleanTagsCollection()  = {
+   ReactiveMongoPlugin.db.collection[BSONCollection]("Tag").remove(BSONDocument())
+
+  }
+
+  def saveTag(tag: Tag)  = {
+   ReactiveMongoPlugin.db.collection[BSONCollection]("Tag").save(tag)
+
   }
 
   private def queryTags(query: BSONDocument): Future[List[Tag]] = {
