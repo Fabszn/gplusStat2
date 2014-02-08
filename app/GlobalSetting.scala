@@ -17,6 +17,6 @@ object Global extends GlobalSettings {
     val synchroArticles = Akka.system(app).actorOf(Props[Articles], name = "synchroArticles")
     Akka.system.scheduler.schedule(0.seconds, 30.minutes, synchroArticles, "go")
     val synchroTags = Akka.system(app).actorOf(Props[Tags], name = "synchroTags")
-    Akka.system.scheduler.schedule(10.seconds, 30.minutes, synchroTags, "go")
+    Akka.system.scheduler.schedule(0.seconds, 12.hour, synchroTags, "go")
   }
 }

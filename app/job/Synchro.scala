@@ -52,8 +52,9 @@ object Synchro {
             val tags = articles.map(article => HtmlUtils.extractTags(article.content)
               .map(sTag => Tag(None, sTag, List(article.googleId))))
               .flatten.groupBy(tag => tag.lbl).mapValues(list => list.map(t => t.articleIds(0)))
-               Tag.cleanTagsCollection()
-               tags.foreach(par => Tag.saveTag(Tag(None,par._1,par._2)))
+            Tag.cleanTagsCollection().onSuccess {
+              case _ => tags.foreach(par => Tag.saveTag(Tag(None, par._1, par._2)))
+            }
 
 
           }

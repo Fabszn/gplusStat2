@@ -116,7 +116,6 @@
 
 
             <!-- Bootstrap core JavaScript
-================================================== -->
             <!-- Placed at the end of the document so the pages load faster -->
         <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
 
@@ -170,6 +169,7 @@
         var element = $ ( document.createElement ( 'span' ) ) ;
         element.attr ( 'data-weight', nb ) ;
         element.html( val ) ;
+        $(element).wrap("<a href='#'></a>")
         $ ( "#cloudTag" ).append ( element );
 
         } )
