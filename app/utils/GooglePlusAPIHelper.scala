@@ -54,7 +54,7 @@ object GooglePlusAPIHelper {
 
     println("treat google query")
     JavaConversions.asScalaBuffer(articles).map(ac => Article(None, extractHtmlContent(ac.getObject.getContent, "b")
-      , ac.getId, ac.getObject.getContent, extractHtmlContent(ac.getObject.getContent, "a"), ac.getObject.getPlusoners.getTotalItems, ac.getObject.getResharers.getTotalItems, true, ac.getPublished().getValue)).toList
+      , ac.getId, ac.getObject.getContent, extractHtmlContent(ac.getObject.getContent, "a"), ac.getObject.getPlusoners.getTotalItems, ac.getObject.getResharers.getTotalItems, true, ac.getPublished().getValue,ac.getUrl())).toList
   }
 }
 

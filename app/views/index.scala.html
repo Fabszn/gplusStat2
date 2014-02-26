@@ -7,12 +7,12 @@
         <meta name="author" content="">
         <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-        <title>Starter Template for Bootstrap</title>
+        <title>Gplus Stats</title>
 
             <!-- Bootstrap core CSS -->
         <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
         <link href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" rel="stylesheet">
-        <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Gafata' rel='stylesheet' type='text/css'>
 
             <!-- Custom styles for this template -->
 
@@ -37,7 +37,7 @@
         }
 
         body {
-        font-family: 'Reenie Beanie', cursive;
+        font-family: 'Gafata', cursive;
             font-size: 2em;
         overflow-y :hidden;
         }
@@ -51,6 +51,11 @@
         height:980px;
 
 
+        }
+
+        tbody a {
+            color: #000;
+            text-decoration: underline;
         }
 
         </style>
@@ -67,7 +72,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="">Gplus Statistique<</a>
+                    <a class="navbar-brand" href="">Gplus Statistiques</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -118,8 +123,7 @@
             <!-- Bootstrap core JavaScript
             <!-- Placed at the end of the document so the pages load faster -->
         <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
-
-
+        <script src="@routes.Assets.at("javascripts/underscore-1.6.js")"></script>
         <script src="http://codeorigin.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.0.2/bootstrap.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
@@ -129,7 +133,11 @@
         $ ( "#articles" ).dataTable (
 
         {"aoColumnDefs":
-        [{ "sWidth": "60%", "aTargets": [0] },
+        [{ "mRender": function ( data, type, full ) {
+        var titleUrl = data.split("|");
+        return '<a href="'+titleUrl[1]+'" target="_blank">'+titleUrl[0]+'</a>';
+        },
+        "sWidth": "60%", "aTargets": [0] },
         { "sWidth": "30%", "bSearchable": false, "aTargets": [1] },
         { "sWidth": "5%", "aTargets": [2] },
         { "sWidth": "5%", "aTargets": [3] },

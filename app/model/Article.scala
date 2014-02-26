@@ -13,9 +13,9 @@ import play.api.Play.current
 import scala.util.{Failure, Success}
 
 
-case class Article(_id: Option[BSONObjectID] = None, title: String, googleId: String, content: String, author: String, plusone: Long, shared: Long, current: Boolean, publicationDate: Long) {
+case class Article(_id: Option[BSONObjectID] = None, title: String, googleId: String, content: String, author: String, plusone: Long, shared: Long, current: Boolean, publicationDate: Long, url: String) {
   // def formatedPublicationDate(): String = publicationDate.dayOfMonth() + "/" + publicationDate.monthOfYear() + "/" + publicationDate.year()
-  override def hashCode(): Int = (googleId + plusone + shared).hashCode
+  override def hashCode(): Int = (googleId + plusone + shared + url).hashCode
 
   override def equals(p1: scala.Any): Boolean = this.hashCode() == (p1.hashCode())
 
@@ -49,7 +49,8 @@ object Article {
         document.getAs[BSONLong]("plusOne").getOrElse(BSONLong(-1)).value,
         document.getAs[BSONLong]("shared").getOrElse(BSONLong(-1)).value,
         document.getAs[BSONBoolean]("current").getOrElse(BSONBoolean(false)).value,
-        document.getAs[BSONLong]("publicationDate").getOrElse(BSONLong(-1)).value
+        document.getAs[BSONLong]("publicationDate").getOrElse(BSONLong(-1)).value,
+        document.getAs[BSONString]("url").getOrElse(BSONString("NO_VALUE")).value
       )
     }
   }
@@ -66,7 +67,9 @@ object Article {
         "plusOne" -> BSONLong(article.plusone),
         "shared" -> BSONLong(article.shared),
         "current" -> BSONBoolean(article.current),
-        "publicationDate" -> BSONLong(article.publicationDate)
+        "publicationDate" -> BSONLong(article.publicationDate),
+        "url" -> BSONString(article.url)
+
       )
 
 

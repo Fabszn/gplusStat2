@@ -20,7 +20,7 @@ object Application extends Controller {
 
 
     implicit object articleJsonWrite extends Writes[Article] {
-      def writes(o: Article): JsValue = JsArray(Seq(JsString(o.title),
+      def writes(o: Article): JsValue = JsArray(Seq(JsString(o.title +"|"+o.url ),
         //"googleId" -> o.googleId,
         //"content" -> o.content,
         JsString(o.author),
@@ -49,14 +49,14 @@ object Application extends Controller {
     Tag.loadTags().map(tags => Ok(JsObject(tags.filter(tag => tag.articleIds.size > 1).map(t => (t.lbl, JsNumber(t.articleIds.size))).toList)))
   }
 
-  /*def articleFromDB = Action.async {
+  def articleFromDB = Action.async {
 
     val farticles = Article.loadArticles()
 
-    farticles.map(art => Ok(views.html.allArticles(art.map(a => a.googleId + " " + a.title + " " + a.plusone + " " + a.shared))))
+    farticles.map(art => Ok(views.html.allArticles(art.map(a => a.googleId + " " + a.title + " " + a.plusone + " " + a.shared+ " " + a.url))))
 
 
-  }*/
+  }
 
 
   /*def saveArticle = Action {
